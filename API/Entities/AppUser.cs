@@ -8,5 +8,9 @@ namespace API.Entities
 
         //This name also follows Entity conventions and needs the ? after the type in case the value in the database is null. It means the value is nullable.
         public string UserName { get; set; }
+
+        public byte[] PasswordHash  { get; set; }
+
+        public byte[] PasswordSalt { get; set; }
     }
 }

@@ -1,5 +1,6 @@
-﻿using API.Data;
+﻿ using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    //declares the api endpoint..in this case we'll be at localhost:5001/api/users
-    //the users portion of the url comes from the first portion of the class name below. Since we have it named UsersController we get api/users. Notice the route statement below in the square brackets is setting api/controller as the path.
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController : ControllerBase
+ 
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
 
@@ -21,13 +19,16 @@ namespace API.Controllers
         }
 
         // GET: api/users
+        
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
         }
 
         // GET api/users/ID
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>>  GetUser(int id)
         {
